@@ -1,0 +1,39 @@
+---
+kind: pipeline
+type: kubernetes
+name: Mattox-Engineering-Portal
+
+platform:
+  os: linux
+  arch: amd64
+
+clone:
+  depth: 1
+
+environment:
+  DOCKER_HOST: tcp://docker-in-docker:2375
+  DOCKER_CLI_EXPERIMENTAL: enabled
+
+steps:
+  - name: Waiting for Docker to start
+    image: cube8021/docker-buildx:20.10.14-0.8.2
+    commands:
+    - echo 'Waiting for docker to start...'
+    - while ! docker info; do sleep 1; done
+
+  - name: Docker Build
+    image: cube8021/docker-buildx:20.10.14-0.8.2
+    environment:
+      DOCKER_USERNAME:
+        from_secret: harbor-username
+      DOCKER_PASSWORD:
+        from_secret: harbor-password
+    commands:
+    - sh ./docker-build.sh
+
+services:
+- name: docker-in-docker
+  docker:
+  image: docker:20.10.14-dind
+  command: ["dockerd", "--host", "0.0.0.0", "--experimental"]
+  privileged: true
