@@ -147,7 +147,7 @@ func main() {
 		if disk.Percent*100 > float64(percentThreshold) {
 			log.Println("Disk usage is above threshold, starting cleaning up")
 			log.Println("Cleaning up unused containers")
-			cmd = exec.Command("/bin/sh", "-c", "for id in `k3s crictl ps -a | grep -i exited | awk '{print $1}'`; do crictl rm $id ; done")
+			cmd = exec.Command("/bin/sh", "-c", "for id in `k3s crictl ps -a | grep -i exited | awk '{print $1}'`; do k3s crictl rm $id ; done")
 			err = cmd.Run()
 			if err != nil {
 				log.Println("Error cleaning up unused containers:", err)
