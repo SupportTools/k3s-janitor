@@ -96,7 +96,7 @@ func main() {
 		w.WriteHeader(http.StatusOK)
 		w.Write([]byte(strconv.FormatFloat(disk.Percent, 'f', 2, 64)))
 	})
-	http.ListenAndServe(":8080", r)
+	go http.ListenAndServe(":8080", r)
 
 	percentThesholdEnv := os.Getenv("PERCENT_THRESHOLD")
 	if percentThesholdEnv == "" {
