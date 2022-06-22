@@ -1,0 +1,17 @@
+apiVersion: v2
+name: k3s-janitor
+description: A Helm chart for Kubernetes
+type: application
+version: RELEASE
+appVersion: DRONE_BUILD_NUMBER
+keywords:
+- kubernetes
+- k3s
+- maintenance
+home: https://github.com/SupportTools/k3s-janitor
+sources:
+  - https://github.com/SupportTools/k3s-janitor
+maintainers:
+  - name: mattmattox
+    email: mmattox@support.tools
+icon: https://raw.githubusercontent.com/SupportTools/k3s-janitor/main/assets/logo.svg
