@@ -131,7 +131,7 @@ spec:
     spec:
       containers:
       - image: supporttools/k3s-janitor:latest
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         name: k3s-janitor
         ports:
         - containerPort: 8080
