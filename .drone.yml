@@ -37,7 +37,7 @@ steps:
       SSH_KEY:
         from_secret: ssh_key    
     commands:
-      - bash ./chart-build.sh -b ${DRONE_BUILD_NUMBER} -r ${Release} -e dev
+      - bash ./chart-build.sh -b ${DRONE_BUILD_NUMBER} -r ${RELEASE} -e dev
     when:
      event:
      - deployment
@@ -51,7 +51,7 @@ steps:
       SSH_KEY:
         from_secret: ssh_key    
     commands:
-      - bash ./chart-build.sh -b ${DRONE_BUILD_NUMBER} -r ${Release} -e production
+      - bash ./chart-build.sh -b ${DRONE_BUILD_NUMBER} -r ${RELEASE} -e production
     when:
      event:
      - deployment

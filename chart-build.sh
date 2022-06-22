@@ -33,7 +33,7 @@ while getopts ":b:r:e:h" opt; do
   esac
 done
 
-if [[ -z $Release ]]
+if [[ -z $RELEASE ]]
 then
   echo "Release must be set"
   exit 0
