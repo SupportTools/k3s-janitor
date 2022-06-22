@@ -53,7 +53,7 @@ func main() {
 	log.Println("Starting k3s-janitor")
 	printVersion()
 
-	log.Panicln("Starting health check")
+	log.Println("Starting health check")
 	r := mux.NewRouter()
 	r.HandleFunc("/liveness", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
