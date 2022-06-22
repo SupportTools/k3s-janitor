@@ -135,7 +135,7 @@ func main() {
 	stdout, err := cmd.Output()
 	if err != nil {
 		log.Println("crictl not available")
-		os.Exit(1)
+		//os.Exit(1)
 	}
 	log.Print(string(stdout))
 
