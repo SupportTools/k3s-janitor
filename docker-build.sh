@@ -1,7 +1,7 @@
 #!/bin/sh
 
 echo "Setting docker environment"
-docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD harbor.support.tools
+docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
 
 docker pull supporttools/k3s-janitor:latest
 echo "Building..."
