@@ -1,0 +1,159 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: "k3s-janitor"
+  labels:
+    app: "k3s-janitor"
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: "k3s-janitor"
+  namespace: "k3s-janitor"
+  labels:
+    app: "k3s-janitor"
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app: k3s-janitor
+  name: k3s-janitor
+rules:
+- apiGroups:
+  - '*'
+  resources:
+  - '*'
+  verbs:
+  - '*'
+- nonResourceURLs:
+  - '*'
+  verbs:
+  - '*'
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  labels:
+    app: k3s-janitor
+  name: k3s-janitor
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: k3s-janitor
+subjects:
+- kind: ServiceAccount
+  name: k3s-janitor
+  namespace: k3s-janitor
+---
+apiVersion: policy/v1beta1
+kind: PodSecurityPolicy
+metadata:
+  name: k3s-janitor
+  namespace: "k3s-janitor"
+  labels:
+    app: k3s-janitor
+spec:
+  allowPrivilegeEscalation: true
+  allowedCapabilities:
+  - '*'
+  fsGroup:
+    rule: RunAsAny
+  hostIPC: true
+  hostNetwork: true
+  hostPID: true
+  hostPorts:
+  - max: 65535
+    min: 0
+  privileged: true
+  runAsUser:
+    rule: RunAsAny
+  seLinux:
+    rule: RunAsAny
+  supplementalGroups:
+    rule: RunAsAny
+  volumes:
+  - '*'
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  labels:
+    app: k3s-janitor
+  name: k3s-janitor-psp
+  namespace: "k3s-janitor"
+rules:
+- apiGroups:
+  - policy
+  resources:
+  - podsecuritypolicies
+  resourceNames:
+  - k3s-janitor
+  verbs:
+  - use
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: k3s-janitor-psp-binding
+  namespace: "k3s-janitor"
+  labels:
+    app: k3s-janitor
+  namespace: k3s-janitor
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: k3s-janitor-psp
+subjects:
+- kind: ServiceAccount
+  name: k3s-janitor
+  namespace: k3s-janitor
+- kind: ServiceAccount
+  name: default
+  namespace: k3s-janitor
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  labels:
+    app: k3s-janitor
+  name: k3s-janitor
+  namespace: "k3s-janitor"
+spec:
+  selector:
+    matchLabels:
+      app: k3s-janitor
+  template:
+    metadata:
+      labels:
+        app: k3s-janitor
+    spec:
+      containers:
+      - image: supporttools/k3s-janitor:latest
+        imagePullPolicy: IfNotPresent
+        name: k3s-janitor
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        securityContext:
+          allowPrivilegeEscalation: true
+          privileged: true
+        volumeMounts:
+        - mountPath: /var/lib/rancher/
+          name: var-lib-rancher
+      serviceAccount: k3s-janitor
+      serviceAccountName: k3s-janitor
+      tolerations:
+      - key: node-role.kubernetes.io/control-plane
+        operator: Exists
+        effect: NoSchedule
+      - key: node-role.kubernetes.io/master
+        operator: Exists
+        effect: NoSchedule
+      volumes:
+      - hostPath:
+          path: /var/lib/rancher/
+          type: ""
+        name: var-lib-rancher
