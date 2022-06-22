@@ -53,7 +53,8 @@ eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_rsa
 git config --global core.sshCommand "ssh -i ~/.ssh/id_rsa -F /dev/null -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
 
-cd /drone/src/
+#cd /drone/src/
+ls -l
 
 echo "Find and replace values..."
 sed -i "s|RELEASE|${RELEASE}|g" ./chart/k3s-janitor/Chart.yaml
