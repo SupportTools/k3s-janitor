@@ -31,6 +31,34 @@ steps:
     commands:
     - sh ./docker-build.sh
 
+  - name: Helm-Chart-Dev
+    image: supporttools/kube-builder:latest
+    environment:
+      SSH_KEY:
+        from_secret: ssh_key    
+    commands:
+      - bash ./chart-build.sh -b ${DRONE_BUILD_NUMBER} -r ${Release} -e dev
+    when:
+     event:
+     - deployment
+     - promote
+     target:
+     - dev
+
+  - name: Helm-Chart-Prod
+    image: supporttools/kube-builder:latest
+    environment:
+      SSH_KEY:
+        from_secret: ssh_key    
+    commands:
+      - bash ./chart-build.sh -b ${DRONE_BUILD_NUMBER} -r ${Release} -e production
+    when:
+     event:
+     - deployment
+     - promote
+     target:
+     - production
+
 services:
 - name: docker-in-docker
   docker:

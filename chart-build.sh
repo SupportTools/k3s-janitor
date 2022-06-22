@@ -83,7 +83,7 @@ else
 fi
 
 echo "Copying package into repo..."
-cp /drone/src/kubebackup-*.tgz .
+cp /drone/src/k3s-janitor-*.tgz .
 
 echo "Reindexing repo..."
 if [[ ${Environment} == "production" ]]
