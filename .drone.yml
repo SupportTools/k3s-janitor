@@ -1,7 +1,7 @@
 ---
 kind: pipeline
 type: kubernetes
-name: Mattox-Engineering-Portal
+name: k3s-janitor
 
 platform:
   os: linux
