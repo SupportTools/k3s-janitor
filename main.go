@@ -14,9 +14,11 @@ import (
 )
 
 var gitCommit string
+var gitBranch string
 
 func printVersion() {
 	log.Printf("Current build version: %s", gitCommit)
+	log.Printf("Current build branch: %s", gitBranch)
 }
 
 type DiskStatus struct {
@@ -70,6 +72,9 @@ func main() {
 	r.HandleFunc("/version", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		w.Write([]byte(gitCommit))
+		w.Write([]byte("\n"))
+		w.Write([]byte(gitBranch))
+		w.Write([]byte("\n"))
 	})
 	r.HandleFunc("/disk", func(w http.ResponseWriter, r *http.Request) {
 		disk := DiskUsage("/")
