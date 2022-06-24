@@ -21,7 +21,7 @@ docker buildx create --name multiarch --use
 echo "Building..."
 if [[ ${LOCAL} == 'true' ]]
 then
-  docker build build --platform linux/amd64,linux/arm64 --build-arg GIT_COMMIT=${GIT_COMMIT} -f Dockerfile .
+  docker buildx build --platform linux/amd64,linux/arm64 --build-arg GIT_COMMIT=${GIT_COMMIT} -f Dockerfile .
 else
-  docker build build --platform linux/amd64,linux/arm64 -t supporttools/k3s-janitor:${DRONE_BUILD_NUMBER} -t supporttools/k3s-janitor:latest --cache-from supporttools/k3s-janitor:latest --build-arg GIT_COMMIT=${GIT_COMMIT} --push -f Dockerfile .
+  docker buildx build --platform linux/amd64,linux/arm64 -t supporttools/k3s-janitor:${DRONE_BUILD_NUMBER} -t supporttools/k3s-janitor:latest --cache-from supporttools/k3s-janitor:latest --build-arg GIT_COMMIT=${GIT_COMMIT} --push -f Dockerfile .
 fi
