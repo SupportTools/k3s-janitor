@@ -136,10 +136,20 @@ func main() {
 	}
 
 	// Verify that crictl is available
-	cmd := exec.Command("crictl", "info")
+	cmd := exec.Command("crictl", "--version")
 	stdout, err := cmd.Output()
 	if err != nil {
 		log.Println("crictl not available")
+		log.Println("Error:", err)
+		//os.Exit(1)
+	}
+	log.Print(string(stdout))
+
+	// Dump crictl info
+	cmd = exec.Command("crictl", "info")
+	stdout, err = cmd.Output()
+	if err != nil {
+		log.Println("crictl info not available")
 		log.Println("Error:", err)
 		//os.Exit(1)
 	}
@@ -160,7 +170,7 @@ func main() {
 				os.Exit(2)
 			}
 			log.Println("Cleaning up unused images")
-			cmd := exec.Command("crictl", "rmi", "--prune")
+			cmd := exec.Command("crictl", "rmi", "prune")
 			err := cmd.Run()
 			if err != nil {
 				log.Println("Error cleaning up:", err)
