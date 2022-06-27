@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     wget \
     software-properties-common
 RUN VERSION="v1.24.2" && \
-wget https://github.com/kubernetes-sigs/cri-tools/releases/download/$VERSION/crictl-$VERSION-linux-amd64.tar.gz && \
+wget -k https://github.com/kubernetes-sigs/cri-tools/releases/download/$VERSION/crictl-$VERSION-linux-amd64.tar.gz && \
 tar zxvf crictl-$VERSION-linux-amd64.tar.gz -C /usr/local/bin && \
 rm -f crictl-$VERSION-linux-amd64.tar.gz
 COPY --from=build_base /src/main /main
