@@ -136,7 +136,7 @@ func main() {
 	}
 
 	// Verify that crictl is available
-	cmd := exec.Command("crictl", "--version")
+	cmd := exec.Command("/bin/sh", "-c", "crictl --version")
 	stdout, err := cmd.Output()
 	if err != nil {
 		log.Println("crictl not available")
@@ -146,7 +146,7 @@ func main() {
 	log.Print(string(stdout))
 
 	// Dump crictl info
-	cmd = exec.Command("crictl", "info")
+	cmd = exec.Command("/bin/sh", "-c", "crictl info")
 	stdout, err = cmd.Output()
 	if err != nil {
 		log.Println("crictl info not available")
