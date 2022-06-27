@@ -1,6 +1,8 @@
 # Default values for k3s-janitor.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
+settings:
+  threshold: 90
+  sleepBackground: 15
+  sleepForeground: 5
 
 image:
   repository: supporttools/k3s-janitor
@@ -41,3 +43,4 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+

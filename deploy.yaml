@@ -130,7 +130,14 @@ spec:
         app: k3s-janitor
     spec:
       containers:
-      - image: supporttools/k3s-janitor:latest
+      - env:
+        - name: PERCENT_THRESHOLD
+          value: "90"
+        - name: SLEEP_BACKGROUND
+          value: "15"
+        - name: SLEEP_FOREGROUND
+          value: "5"
+        image: supporttools/k3s-janitor:latest
         imagePullPolicy: Always
         name: k3s-janitor
         ports:
