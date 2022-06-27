@@ -11,6 +11,7 @@ FROM ubuntu:22.04
 # RUN apt-get update && apt-get install -y --no-install-recommends \
 #     ca-certificates \
 #     wget \
+#     curl \
 #     software-properties-common
 # RUN VERSION="v1.24.2" && \
 # OS="xUbuntu_22.04" && \
