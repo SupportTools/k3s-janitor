@@ -23,6 +23,5 @@ FROM ubuntu:22.04
 # apt install -y --no-install-recommends \
 #     cri-o \
 #     cri-o-runc
-RUN echo "export PATH=$PATH:/var/lib/rancher/k3s/data/current/bin" > /etc/environment
 COPY --from=build_base /src/main /main
 CMD ["/main"]
