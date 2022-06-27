@@ -163,14 +163,14 @@ func main() {
 		if disk.Percent*100 > float64(percentThreshold) {
 			log.Println("Disk usage is above threshold, starting cleaning up")
 			log.Println("Cleaning up unused containers")
-			cmd = exec.Command("/bin/sh", "-c", "for id in `crictl ps -a | grep -i exited | awk '{print $1}'`; do crictl rm $id ; done")
+			cmd = exec.Command("/bin/sh", "-c", "for id in `/var/lib/rancher/k3s/data/current/bin/crictl ps -a | grep -i exited | awk '{print $1}'`; do /var/lib/rancher/k3s/data/current/bin/crictl rm $id ; done")
 			err = cmd.Run()
 			if err != nil {
 				log.Println("Error cleaning up unused containers:", err)
 				os.Exit(2)
 			}
 			log.Println("Cleaning up unused images")
-			cmd := exec.Command("crictl", "rmi", "prune")
+			cmd := exec.Command("/bin/sh", "-c", "/var/lib/rancher/k3s/data/current/bin/crictl", "rmi", "prune")
 			err := cmd.Run()
 			if err != nil {
 				log.Println("Error cleaning up:", err)
