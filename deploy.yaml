@@ -160,6 +160,8 @@ spec:
         volumeMounts:
         - mountPath: /var/lib/rancher/
           name: var-lib-rancher
+        - mountPath: /run/k3s/
+          name: run-k3s
       serviceAccount: k3s-janitor
       serviceAccountName: k3s-janitor
       tolerations:
@@ -174,3 +176,7 @@ spec:
           path: /var/lib/rancher/
           type: ""
         name: var-lib-rancher
+      - hostPath:
+          path: /run/k3s/
+          type: ""
+        name: run-k3s
