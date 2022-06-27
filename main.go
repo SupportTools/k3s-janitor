@@ -136,12 +136,11 @@ func main() {
 	}
 
 	// Verify that crictl is available
-	cmd := exec.Command("crictl", "--version")
+	cmd := exec.Command("crictl", "info")
 	stdout, err := cmd.Output()
 	if err != nil {
 		log.Println("crictl not available")
 		log.Println("Error:", err)
-		log.Println("Output:", string(stdout))
 		os.Exit(1)
 	}
 	log.Print(string(stdout))
