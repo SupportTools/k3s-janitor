@@ -53,19 +53,16 @@ eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_rsa
 git config --global core.sshCommand "ssh -i ~/.ssh/id_rsa -F /dev/null -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
 
-#cd /drone/src/
-ls -l
-
 echo "Find and replace values..."
 sed -i "s|RELEASE|${RELEASE}|g" ./chart/k3s-janitor/Chart.yaml
 sed -i "s|RELEASE|${RELEASE}|g" ./chart/k3s-janitor/values.yaml
 sed -i "s|DRONE_BUILD_NUMBER|${DRONE_BUILD_NUMBER}|g" ./chart/k3s-janitor/Chart.yaml
 sed -i "s|DRONE_BUILD_NUMBER|${DRONE_BUILD_NUMBER}|g" ./chart/k3s-janitor/values.yaml
 
-echo "::Chart::"
-cat ./chart/k3s-janitor/Chart.yaml
-echo "::Values::"
-cat ./chart/k3s-janitor/values.yaml
+# echo "::Chart::"
+# cat ./chart/k3s-janitor/Chart.yaml
+# echo "::Values::"
+# cat ./chart/k3s-janitor/values.yaml
 
 echo "Packaging helm chart..."
 helm package ./chart/k3s-janitor/ --version $RELEASE --app-version $DRONE_BUILD_NUMBER
