@@ -138,12 +138,12 @@ func main() {
 	// Verify that crictl is available
 	cmd := exec.Command("crictl", "info")
 	stdout, err := cmd.Output()
+	log.Print(string(stdout))
 	if err != nil {
 		log.Println("crictl not available")
 		log.Println("Error:", err)
 		os.Exit(1)
 	}
-	log.Print(string(stdout))
 
 	for {
 		log.Println("Checking filesystem usage")
