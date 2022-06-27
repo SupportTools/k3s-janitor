@@ -7,7 +7,9 @@ RUN go get -d -v ./...
 RUN go install -v ./...
 RUN CGO_ENABLED=0 go build -ldflags "-X main.gitCommit=$GIT_COMMIT" -o main main.go
 
-FROM rancher/k3s:latest
+FROM rancher/k3s:latest AS k3s_base
+
+FROM alpine:latest
 COPY --from=build_base /src/main /main
-RUN echo export PATH='$PATH:/var/lib/rancher/k3s/data/current/bin' >> /etc/profile
+COPY --from=k3s_base /bin/k3s /bin/k3s
 CMD ["/main"]
